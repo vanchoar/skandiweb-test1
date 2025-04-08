@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+.galleryImages {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemImage {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  margin-bottom: 19px;
+  cursor: pointer;
+}
+
+.galleryImages img {
+  width: 80px;
+  transform: translateY(-17%);
+}
+
+.content-main {
+  display: flex;
+  flex-direction: row;
+}
+
+.galleryMainImg {
+  max-width:575px;
+  max-height:480px;
+  min-width: 300px;
+  width: 90%;
+  /* flex-wrap: wrap;
+  align-items: flex-start; */
+  /* align-content: center; */
+}
+
+.galleryMainImg img {
+  width: 100%;
+  max-width: 500px;
+}
+
+.galleryMainInfo {
+  padding-left: 10%;
+  width: 31%;
+  min-width: 300px;
+}
+
+.infoTitle {
+  font-family: 'Roboto Condensed';
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.galleryMainInfo h3 {
+  margin: 0 0 25px;
+  font-size: 30px;
+}
+
+.infoElement .itemBox {
+  font-family: 'Roboto Condensed';
+  width: 63px;
+  height: 45px;
+  font-size: 16px;
+  line-height: 45px;
+}
+
+.infoElement {
+  margin-bottom:28px;
+}
+
+.infoElement .itemColor {
+  width: 32px;
+  height: 32px;
+}
+
+.infoElement .itemColor:hover, .infoElement .itemColor.selected {
+  border:3px solid #fff;
+  border-style: double;
+  margin-top: -2px;
+  margin-right: 2px;
+  margin-left:-2px;
+  margin-bottom: -2px;
+}
+
+.infoElement .itemsColor.itemOptsWrap {
+  margin: 7px 0 12px;
+}
+
+.infoElement .infoPrice {
+  font-size: 24px;
+  color: #1D1F22;
+  font-family: "Raleway";
+  font-weight: 700;
+  margin: 20px 0;
+}
+
+.galleryMainInfo .orderBtn {
+  margin-top: 0;
+}
+
+.galleryMainInfo .infoText {
+  word-wrap: break-word;
+  font-family: 'Roboto';
+  line-height: 27px;
+  margin-top: 35px;
+}
+
+.productView {
+  width: 87%;
+  padding: 2% 0;
+  margin: auto;
+}
+
+.scrollArrows {
+  width:100%;
+  /* height:40px; */
+  position: relative;
+  margin-bottom: -50%;
+  margin-top: 45%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.scrollArrows div {
+  width: 32px;
+  height: 32px;
+  background: #000;
+  opacity: 0.7;
+  margin: 0 20px;
+  cursor: pointer;
+  color: #fff;
+  line-height: 25px;
+  text-align: center;
+  font-size: 40px;
+  font-family: 'Roboto';
+}
+
+.galleryContainer {
+  display: flex;
+  align-items: flex-start;
+}
+
+.galleryThumbnails {
+  display: flex;
+  flex-direction: column;
+  margin-right: 16px;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.thumbnail.selected {
+  border-color: #000;
+}
+
