@@ -4,7 +4,26 @@ import cart from "../../assets/cart.png";
 import CartExpand from "./CartExpand.tsx";
 import { useState, useEffect } from "react";
 import { CartItem } from "../../types";
-import { NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+
+const CustomLink = ({
+  category,
+}: {
+  category: { id: string; name: string };
+}) => {
+  const location = useLocation();
+  const isActive = location.pathname === `/${category.name}/${category.id}`;
+
+  return (
+    <Link
+      to={`/${category.name}/${category.id}`}
+      className={`navItemLabel ${isActive ? "active-link" : ""}`}
+      data-testid={isActive ? "active-category-link" : "category-link"}
+    >
+      {category.name}
+    </Link>
+  );
+};
 
 const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
 
@@ -68,20 +87,8 @@ function Header({
     <div className="header">
       <div className="navigation">
         <div className="navItem">
-          {/* {categoryId} {categoryName} */}
           {categories.map((category: any) => (
-            <NavLink
-              to={`/${category.name}/${category.id}`}
-              id={category.id}
-              className={({ isActive }: { isActive: boolean }) =>
-                isActive ? "navItemLabel active-link" : "navItemLabel"
-              }
-              data-testid={({ isActive }: { isActive: boolean }) =>
-                isActive ? "active-category-link" : "category-link"
-              }
-            >
-              {category.name}
-            </NavLink>
+            <CustomLink category={category} />
           ))}
         </div>
         <div className="navLogo">
