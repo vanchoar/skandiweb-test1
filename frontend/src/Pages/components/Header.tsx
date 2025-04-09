@@ -73,10 +73,10 @@ function Header({
             <NavLink
               to={`/${category.name}/${category.id}`}
               id={category.id}
-              className={({ isActive }) =>
+              className={({ isActive }: { isActive: boolean }) =>
                 isActive ? "navItemLabel active-link" : "navItemLabel"
               }
-              data-testid={({ isActive }) =>
+              data-testid={({ isActive }: { isActive: boolean }) =>
                 isActive ? "active-category-link" : "category-link"
               }
             >
