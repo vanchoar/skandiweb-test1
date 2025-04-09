@@ -97,9 +97,7 @@ function ContentList({ addToCart, toKebabCase }: ContentListProps) {
               <div
                 className="itemWrap"
                 key={product.id}
-                onClick={() =>
-                  navigate(`/category/${categoryId}/product/${product.id}`)
-                }
+                onClick={() => navigate(`/${categoryId}/product/${product.id}`)}
               >
                 <img
                   className={

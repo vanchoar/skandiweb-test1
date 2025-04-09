@@ -70,10 +70,7 @@ function Header({
         <div className="navItem">
           {/* {categoryId} {categoryName} */}
           {categories.map((category: any) => (
-            <NavLink
-              to={`/category/${category.name}/${category.id}`}
-              id={category.id}
-            >
+            <NavLink to={`/${category.name}/${category.id}`} id={category.id}>
               {({ isActive }) => (
                 <span
                   className={

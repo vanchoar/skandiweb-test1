@@ -85,13 +85,13 @@ function App() {
       />
       <Routes>
         <Route
-          path="/category/:categoryName/:categoryId"
+          path="/:categoryName/:categoryId"
           element={
             <ContentList addToCart={addToCart} toKebabCase={toKebabCase} />
           }
         />
         <Route
-          path="/category/:categoryName/:categoryIdproduct/:productId"
+          path="/:categoryName/:categoryIdproduct/:productId"
           element={
             <ProductGallery addToCart={addToCart} toKebabCase={toKebabCase} />
           }
