@@ -70,19 +70,17 @@ function Header({
         <div className="navItem">
           {/* {categoryId} {categoryName} */}
           {categories.map((category: any) => (
-            <NavLink to={`/${category.name}/${category.id}`} id={category.id}>
-              {({ isActive }) => (
-                <span
-                  className={
-                    isActive ? "navItemLabel active-link" : "navItemLabel"
-                  }
-                  data-testid={
-                    isActive ? "active-category-link" : "category-link"
-                  }
-                >
-                  {category.name}
-                </span>
-              )}
+            <NavLink
+              to={`/${category.name}/${category.id}`}
+              id={category.id}
+              className={({ isActive }) =>
+                isActive ? "navItemLabel active-link" : "navItemLabel"
+              }
+              data-testid={({ isActive }) =>
+                isActive ? "active-category-link" : "category-link"
+              }
+            >
+              {category.name}
             </NavLink>
           ))}
         </div>
