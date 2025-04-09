@@ -10,6 +10,10 @@ export type CartItem = {
   quantity: number;
 }
 
+export interface Category {
+  id: string;
+  name: string;
+}
 
 export type Attribute = {
   name: string;

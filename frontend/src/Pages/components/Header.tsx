@@ -4,26 +4,7 @@ import cart from "../../assets/cart.png";
 import CartExpand from "./CartExpand.tsx";
 import { useState, useEffect } from "react";
 import { CartItem } from "../../types";
-import { Link, useLocation } from "react-router-dom";
-
-const CustomLink = ({
-  category,
-}: {
-  category: { id: string; name: string };
-}) => {
-  const location = useLocation();
-  const isActive = location.pathname === `/${category.name}/${category.id}`;
-
-  return (
-    <Link
-      to={`/${category.name}/${category.id}`}
-      className={`navItemLabel ${isActive ? "active-link" : ""}`}
-      data-testid={isActive ? "active-category-link" : "category-link"}
-    >
-      {category.name}
-    </Link>
-  );
-};
+import { Link, useNavigate } from "react-router-dom";
 
 const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
 
@@ -42,8 +23,11 @@ function Header({
   decreaseQuantity,
   toKebabCase,
 }: HeaderProps) {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
+    []
+  );
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -83,12 +67,31 @@ function Header({
   const getTotalQuantity = (cartItems: any) =>
     cartItems.reduce((sum: any, item: any) => sum + item.quantity, 0);
 
+  const handleCategoryClick = (categoryName: string) => {
+    // Find the category id by category name
+    const category = categories.find(
+      (cat) => cat.name.toLowerCase() === categoryName.toLowerCase()
+    );
+    if (category) {
+      // Navigate using only the category name in the URL
+      navigate(`/${category.name.toLowerCase()}`);
+    }
+  };
+
   return (
     <div className="header">
       <div className="navigation">
         <div className="navItem">
-          {categories.map((category: any) => (
-            <CustomLink category={category} />
+          {categories.map((category) => (
+            <Link
+              key={category.id}
+              to={`/${category.name.toLowerCase()}`} // Only category name in URL
+              className="navItemLabel"
+              onClick={() => handleCategoryClick(category.name)} // Optional: Handle click logic here
+              data-testid={`category-link-${category.id}`}
+            >
+              {category.name}
+            </Link>
           ))}
         </div>
         <div className="navLogo">
