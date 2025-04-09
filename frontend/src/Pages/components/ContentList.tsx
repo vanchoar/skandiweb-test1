@@ -164,7 +164,7 @@ function ContentList({ addToCart, toKebabCase }: ContentListProps) {
                   onClick={() => addToCart(product, defaultOptions)}
                   src={cart_btn}
                   alt="cart button"
-                  data-testid="cart-btn"
+                  // data-testid="cart-btn"
                 />
               ) : (
                 <div className="outOfStock">OUT OF STOCK</div>

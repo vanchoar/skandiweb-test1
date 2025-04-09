@@ -81,15 +81,8 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
 
   const images = (product as Product).gallery.map((g) => g.image_url);
   const currentImage = images[currentIndex];
-
-  // setMainImg(product.gallery[0] || "");
-
-  // const defaultOptions = product.attributes.map((attr) => ({
-  //   id: attr.id,
-  //   name: attr.name,
-  //   displayValue: attr.items[0]?.displayValue,
-  //   value: attr.items[0]?.value, // First option in each attribute
-  // }));
+  const allAttributesSelected =
+    selectedAttributes.length === (product as Product).attributes.length;
 
   const defaultOptions = (product as Product).attributes.map((attr) => ({
     id: attr.id,
@@ -97,9 +90,6 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
     displayValue: attr.items[0]?.displayValue,
     value: attr.items[0]?.value,
   }));
-  // setSelectedAttributes(defaultOptions);
-
-  // const [selectedAttributes, setSelectedAttributes] = useState([]);
 
   const updateAttributes = (
     id: any,
@@ -219,7 +209,11 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
                       data-id={item.id}
                       data-testid={`product-attribute-${toKebabCase(
                         attr.name
-                      )}-${toKebabCase(item.displayValue)}`}
+                      )}-${
+                        attr.name === "Color"
+                          ? toKebabCase(item.value)
+                          : toKebabCase(item.displayValue)
+                      }`}
                       onClick={() =>
                         updateAttributes(
                           attr.id,
@@ -248,26 +242,8 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
             {(product as Product).price.amount}
           </div>
         </div>
-        {/* {(product as Product).inStock ? (
-          <button
-            className="orderBtn"
-            data-testid="add-to-cart"
-            onClick={() =>
-              addToCart(
-                product,
-                selectedAttributes?.length > 0
-                  ? selectedAttributes
-                  : defaultOptions
-              )
-            }
-          >
-            ADD TO CART
-          </button>
-        ) : (
-          <div>OUT OF STOCK</div>
-        )} */}
 
-        <button
+        {/* <button
           className="orderBtn"
           data-testid="add-to-cart"
           disabled={!(product as Product).inStock}
@@ -279,6 +255,24 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
                 : defaultOptions
             )
           }
+        >
+          ADD TO CART
+        </button> */}
+
+        <button
+          className={`orderBtn ${!allAttributesSelected ? "disabled" : ""}`}
+          data-testid="add-to-cart"
+          disabled={!allAttributesSelected || !(product as Product).inStock}
+          onClick={() => {
+            addToCart(
+              product,
+              selectedAttributes.length > 0
+                ? selectedAttributes
+                : defaultOptions
+            );
+            // Trigger cart overlay (replace this with your actual function)
+            window.dispatchEvent(new Event("openCartOverlay"));
+          }}
         >
           ADD TO CART
         </button>

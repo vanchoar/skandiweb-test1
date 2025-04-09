@@ -63,6 +63,13 @@ function Header({
       }
     };
     fetchCategories();
+    const handleOpenCart = () => setOpen(true);
+
+    window.addEventListener("openCartOverlay", handleOpenCart);
+
+    return () => {
+      window.removeEventListener("openCartOverlay", handleOpenCart);
+    };
   }, []);
 
   const getTotalQuantity = (cartItems: any) =>
