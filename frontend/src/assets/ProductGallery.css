@@ -73,7 +73,7 @@
 }
 
 .infoElement .itemColor:hover, .infoElement .itemColor.selected {
-  border:3px solid #fff;
+  border:3px solid #ededed;
   border-style: double;
   margin-top: -2px;
   margin-right: 2px;
@@ -115,7 +115,7 @@
   /* height:40px; */
   position: relative;
   margin-bottom: -50%;
-  margin-top: 45%;
+  margin-top: 43%;
   display: flex;
   justify-content: space-between;
 }

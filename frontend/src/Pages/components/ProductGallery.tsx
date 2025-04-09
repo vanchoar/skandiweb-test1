@@ -1,18 +1,28 @@
 import "../../assets/index.css";
 import "../../assets/ProductGallery.css";
+import { SelectedAttribute, Product } from "../../types";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import parse from "html-react-parser";
 
-const GRAPHQL_ENDPOINT =
-  "http://localhost/scandiweb-test1/backend/controllers/GraphQL.php";
+type ContentListProps = {
+  addToCart: (
+    product: Product,
+    selectedAttributes: SelectedAttribute[]
+  ) => void;
+  toKebabCase: (str: string) => string;
+};
 
-function ProductGallery({ addToCart, toKebabCase }) {
+const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
+
+function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [mainImg, setMainImg] = useState<string>("");
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [selectedAttributes, setSelectedAttributes] = useState<
+    SelectedAttribute[]
+  >([]);
+  const currentIndex = 0;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -69,22 +79,34 @@ function ProductGallery({ addToCart, toKebabCase }) {
 
   if (!product) return <div>Loading...</div>;
 
-  const images = product.gallery.map((g) => g.image_url);
+  const images = (product as Product).gallery.map((g) => g.image_url);
   const currentImage = images[currentIndex];
 
   // setMainImg(product.gallery[0] || "");
 
-  const defaultOptions = product.attributes.map((attr) => ({
+  // const defaultOptions = product.attributes.map((attr) => ({
+  //   id: attr.id,
+  //   name: attr.name,
+  //   displayValue: attr.items[0]?.displayValue,
+  //   value: attr.items[0]?.value, // First option in each attribute
+  // }));
+
+  const defaultOptions = (product as Product).attributes.map((attr) => ({
     id: attr.id,
     name: attr.name,
     displayValue: attr.items[0]?.displayValue,
-    value: attr.items[0]?.value, // First option in each attribute
+    value: attr.items[0]?.value,
   }));
   // setSelectedAttributes(defaultOptions);
 
   // const [selectedAttributes, setSelectedAttributes] = useState([]);
 
-  const updateAttributes = (id, name, displayValue, value) => {
+  const updateAttributes = (
+    id: any,
+    name: any,
+    displayValue: any,
+    value: any
+  ) => {
     setSelectedAttributes((prev) => {
       // Check if this attribute is already in the array
       const existingIndex = prev.findIndex((attr) => attr.id === id);
@@ -104,28 +126,22 @@ function ProductGallery({ addToCart, toKebabCase }) {
     });
   };
 
-  // console.log(defaultOptions);
-  // console.log(selectedAttributes);
-
   return (
     <div className="content-main productView">
       <div className="galleryContainer">
-        {/* Thumbnails column */}
         <div className="galleryThumbnails">
-          {product.gallery.map((g, idx) => (
+          {(product as Product).gallery.map((g, idx) => (
             <img
               key={idx}
               src={g.image_url}
               className={`thumbnail ${
                 mainImg === g.image_url ? "selected" : ""
               }`}
-              alt={`${product.name} thumb ${idx + 1}`}
               onClick={() => setMainImg(g.image_url)}
             />
           ))}
         </div>
 
-        {/* Main image + arrows */}
         <div className="galleryMainImg" data-testid="product-gallery">
           <div className="MainImageWrap">
             {images.length > 1 ? (
@@ -134,7 +150,9 @@ function ProductGallery({ addToCart, toKebabCase }) {
                   className="leftScroll"
                   onClick={() =>
                     setMainImg((prev) => {
-                      const images = product.gallery.map((x) => x.image_url);
+                      const images = (product as Product).gallery.map(
+                        (x) => x.image_url
+                      );
                       const i = images.indexOf(prev);
                       return images[(i - 1 + images.length) % images.length];
                     })
@@ -146,7 +164,9 @@ function ProductGallery({ addToCart, toKebabCase }) {
                   className="rightScroll"
                   onClick={() =>
                     setMainImg((prev) => {
-                      const images = product.gallery.map((x) => x.image_url);
+                      const images = (product as Product).gallery.map(
+                        (x) => x.image_url
+                      );
                       const i = images.indexOf(prev);
                       return images[(i + 1) % images.length];
                     })
@@ -159,15 +179,15 @@ function ProductGallery({ addToCart, toKebabCase }) {
             <img
               className="loadMainProduct"
               src={mainImg ? mainImg : currentImage}
-              alt={product.name}
+              alt={(product as Product).name}
             />
           </div>
         </div>
       </div>
       <div className="galleryMainInfo">
-        <h3>{product.name}</h3>
+        <h3>{(product as Product).name}</h3>
         <div className="infoElement">
-          {product.attributes.map((attr) => (
+          {(product as Product).attributes.map((attr) => (
             <div
               className="infoElement"
               key={attr.id}
@@ -221,10 +241,11 @@ function ProductGallery({ addToCart, toKebabCase }) {
         <div className="infoElement">
           <div className="infoTitle">PRICE:</div>
           <div className="infoPrice">
-            {product.price.currency_symbol} {product.price.amount}
+            {(product as Product).price.currency_symbol}{" "}
+            {(product as Product).price.amount}
           </div>
         </div>
-        {product.inStock ? (
+        {(product as Product).inStock ? (
           <button
             className="orderBtn"
             data-testid="add-to-cart"
@@ -243,7 +264,7 @@ function ProductGallery({ addToCart, toKebabCase }) {
           <div>OUT OF STOCK</div>
         )}
         <div className="infoText" data-testid="product-description">
-          {parse(product.description)}
+          {parse((product as Product).description)}
         </div>
       </div>
     </div>

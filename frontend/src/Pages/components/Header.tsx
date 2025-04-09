@@ -3,10 +3,18 @@ import logo from "../../assets/logo.png";
 import cart from "../../assets/cart.png";
 import CartExpand from "./CartExpand.tsx";
 import { useState, useEffect } from "react";
-import { useParams, NavLink } from "react-router-dom";
+import { CartItem } from "../../types";
+import { NavLink } from "react-router-dom";
 
-const GRAPHQL_ENDPOINT =
-  "http://localhost/scandiweb-test1/backend/controllers/GraphQL.php";
+const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
+
+type HeaderProps = {
+  cartItems: CartItem[];
+  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  increaseQuantity: (productId: number, selectedAttributes: any) => void;
+  decreaseQuantity: (productId: number, selectedAttributes: any) => void;
+  toKebabCase: (str: string) => string;
+};
 
 function Header({
   cartItems,
@@ -14,11 +22,9 @@ function Header({
   increaseQuantity,
   decreaseQuantity,
   toKebabCase,
-}) {
+}: HeaderProps) {
   const [categories, setCategories] = useState([]);
   const [open, setOpen] = useState(false);
-  const { categoryName, categoryId } = useParams();
-  // const [cartItems, setCartItems] = useState<number>(0);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -55,8 +61,8 @@ function Header({
     fetchCategories();
   }, []);
 
-  const getTotalQuantity = (cartItems) =>
-    cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const getTotalQuantity = (cartItems: any) =>
+    cartItems.reduce((sum: any, item: any) => sum + item.quantity, 0);
 
   return (
     <div className="header">
@@ -67,11 +73,7 @@ function Header({
             <NavLink
               to={`/category/${category.name}/${category.id}`}
               id={category.id}
-              // className={({ isActive }) =>
-              //   isActive ? "navItemLabel active-link" : "navItemLabel"
-              // }
             >
-              {/* {category.name} */}
               {({ isActive }) => (
                 <span
                   className={
@@ -94,7 +96,7 @@ function Header({
           className="cartWrap"
           onClick={() => setOpen(!open)}
           data-testid="cart-btn"
-          aria-label
+          aria-label="Open cart"
         >
           <img src={cart} alt="cart" />
           {cartItems.length ? (
@@ -104,7 +106,7 @@ function Header({
           )}
         </button>
       </div>
-      {open && cartItems.length != "" && (
+      {open && cartItems.length != null && (
         <CartExpand
           cartItems={cartItems}
           setCartItems={setCartItems}
@@ -114,7 +116,9 @@ function Header({
           toKebabCase={toKebabCase}
         />
       )}
-      {open && cartItems.length != "" && <div className="contentOverlay"></div>}
+      {open && cartItems.length != null && (
+        <div className="contentOverlay"></div>
+      )}
     </div>
   );
 }

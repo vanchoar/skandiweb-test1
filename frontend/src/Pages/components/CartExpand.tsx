@@ -1,4 +1,5 @@
 import "../../assets/index.css";
+import { CartExpandProps } from "../../types";
 import { useEffect, useState } from "react";
 
 function CartExpand({
@@ -8,11 +9,10 @@ function CartExpand({
   increaseQuantity,
   decreaseQuantity,
   toKebabCase,
-}) {
-  const [attributesValues, setAttributesValues] = useState([]);
-  // const [cartItems, setCartItems] = useState([]);
-  const GRAPHQL_ENDPOINT =
-    "http://localhost/scandiweb-test1/backend/controllers/GraphQL.php";
+}: CartExpandProps) {
+  const [attributesValues, setAttributesValues] = useState<any>([]);
+
+  const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
 
   useEffect(() => {
     const fetchAttributes = async () => {
@@ -69,8 +69,8 @@ function CartExpand({
         amount: item.price.amount,
         currency_symbol: item.price.currency_symbol,
       },
-      gallery: item.gallery.map((img) => ({ image_url: img.image_url })),
-      attributes: item.attributes.map((attr) => ({
+      gallery: item.gallery.map((img: any) => ({ image_url: img.image_url })),
+      attributes: item.attributes.map((attr: any) => ({
         name: attr.name,
         value: attr.displayValue,
       })),
@@ -103,7 +103,7 @@ function CartExpand({
 
   let totalItemsText = "";
   const totalItems = getTotalQuantity(cartItems);
-  totalItems == "1"
+  totalItems == 1
     ? (totalItemsText = totalItems + " item")
     : (totalItemsText = totalItems + " items");
 
@@ -136,10 +136,11 @@ function CartExpand({
                   {attr.name === "Size" ? (
                     <div className="itemOptsWrap">
                       {(
-                        attributesValues.find((av) => av.name === attr.name)
-                          ?.items || []
+                        attributesValues.find(
+                          (av: any) => av.name === attr.name
+                        )?.items || []
                       ).map(
-                        (item) => (
+                        (item: any) => (
                           // item.value && (
                           <div
                             style={
@@ -171,10 +172,11 @@ function CartExpand({
                   ) : attr.name == "Color" ? (
                     <div className="itemOptsWrap">
                       {(
-                        attributesValues.find((av) => av.name === attr.name)
-                          ?.items || []
+                        attributesValues.find(
+                          (av: any) => av.name === attr.name
+                        )?.items || []
                       ).map(
-                        (item) =>
+                        (item: any) =>
                           item.value && (
                             <div
                               key={item.id}
@@ -234,16 +236,20 @@ function CartExpand({
           </div>
         </div>
       ))}
-      <div className="totalContent">
-        <div className="totalText">Total</div>
-        <div className="totalPrice" data-testid="cart-total">
-          {cartItems.length > 0 ? cartItems[0].price.currency_symbol : "$"}
-          {totalPrice.toFixed(2)}
-        </div>
-      </div>
-      <button className="orderBtn" onClick={() => placeOrder(cartItems)}>
-        PLACE ORDER
-      </button>
+      {cartItems.length > 0 ? (
+        <>
+          <div className="totalContent">
+            <div className="totalText">Total</div>
+            <div className="totalPrice" data-testid="cart-total">
+              {cartItems.length > 0 ? cartItems[0].price.currency_symbol : "$"}
+              {totalPrice.toFixed(2)}
+            </div>
+          </div>
+          <button className="orderBtn" onClick={() => placeOrder(cartItems)}>
+            PLACE ORDER
+          </button>
+        </>
+      ) : null}
     </div>
   );
 }

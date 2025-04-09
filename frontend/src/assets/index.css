@@ -375,7 +375,7 @@ body {
 }
 
 .itemColor.selected {
-  border:3px solid #fff;
+  border:3px solid #ccc;
   border-style: double;
   /* border: 3px solid #aba8a8 !important; */
   margin-top: -2px;

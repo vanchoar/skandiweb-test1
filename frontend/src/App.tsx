@@ -3,11 +3,12 @@ import { useState } from "react";
 import Header from "./Pages/components/Header";
 import ContentList from "./Pages/components/ContentList";
 import ProductGallery from "./Pages/components/ProductGallery";
+import { CartItem } from "./types";
 
 function App() {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  const addToCart = (product, selectedAttributes) => {
+  const addToCart = (product: any, selectedAttributes: any) => {
     // Create a new cart item object.
     const newItem = {
       id: product.id,
@@ -41,7 +42,7 @@ function App() {
     });
   };
 
-  const increaseQuantity = (productId, selectedAttributes) => {
+  const increaseQuantity = (productId: number, selectedAttributes: any) => {
     setCartItems((prevCartItems) =>
       prevCartItems.map((item) =>
         item.id === productId &&
@@ -52,7 +53,7 @@ function App() {
     );
   };
 
-  const decreaseQuantity = (productId, selectedAttributes) => {
+  const decreaseQuantity = (productId: number, selectedAttributes: any) => {
     setCartItems(
       (prevCartItems) =>
         prevCartItems
@@ -67,8 +68,7 @@ function App() {
     );
   };
 
-  // const capitalize = (str: any) => str.charAt(0).toUpperCase() + str.slice(1);
-  const toKebabCase = (str) =>
+  const toKebabCase = (str: string) =>
     str
       .toLowerCase()
       .replace(/\s+/g, "-")

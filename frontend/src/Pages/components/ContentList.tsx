@@ -1,13 +1,20 @@
 import "../../assets/index.css";
-import item from "../../assets/item.png";
+import { SelectedAttribute, Product } from "../../types";
 import cart_btn from "../../assets/cart_btn.png";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const GRAPHQL_ENDPOINT =
-  "http://localhost/scandiweb-test1/backend/controllers/GraphQL.php";
+type ContentListProps = {
+  addToCart: (
+    product: Product,
+    selectedAttributes: SelectedAttribute[]
+  ) => void;
+  toKebabCase: (str: string) => string;
+};
 
-function ContentList({ addToCart, toKebabCase }) {
+const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
+
+function ContentList({ addToCart, toKebabCase }: ContentListProps) {
   const [products, setProducts] = useState([]);
   const { categoryName, categoryId } = useParams();
   const navigate = useNavigate(); // Navigate on click
@@ -66,23 +73,21 @@ function ContentList({ addToCart, toKebabCase }) {
     fetchProducts();
   }, [categoryId]);
   const capitalize = (str: any) => str.charAt(0).toUpperCase() + str.slice(1);
-  // const toKebabCase = (str) =>
-  //   str
-  //     .toLowerCase()
-  //     .replace(/\s+/g, "-")
-  //     .replace(/[^a-z0-9-]/g, "");
 
   return (
     <div className="contentWrap">
       <h2> {capitalize(categoryName)}</h2>
 
       <div className="items-list">
-        {products.map((product) => {
-          const defaultOptions = product.attributes.map((attr) => ({
-            name: attr.name,
-            displayValue: attr.items[0]?.displayValue,
-            value: attr.items[0]?.value, // First option in each attribute
-          }));
+        {products.map((product: Product) => {
+          const defaultOptions = (product as Product).attributes.map(
+            (attr) => ({
+              id: attr.id,
+              name: attr.name,
+              displayValue: attr.items[0]?.displayValue,
+              value: attr.items[0]?.value,
+            })
+          );
 
           return (
             <div
