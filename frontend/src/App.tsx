@@ -4,22 +4,10 @@ import { useState } from "react";
 import Header from "./Pages/components/Header";
 import ContentList from "./Pages/components/ContentList";
 import ProductGallery from "./Pages/components/ProductGallery";
-import { CartItem, Category } from "./types";
+import { CartItem } from "./types";
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [categories, setCategories] = useState<Category[]>([
-    { id: "1", name: "Electronics" },
-    { id: "2", name: "Clothing" },
-    { id: "3", name: "Accessories" },
-  ]);
-
-  const getCategoryIdByName = (categoryName: string): string | null => {
-    const category = categories.find(
-      (category) => category.name.toLowerCase() === categoryName.toLowerCase()
-    );
-    return category ? category.id : null;
-  };
 
   const addToCart = (product: any, selectedAttributes: any) => {
     const newItem = {
