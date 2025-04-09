@@ -62,10 +62,7 @@ function App() {
   };
 
   const toKebabCase = (str: string) =>
-    str
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^a-z0-9-]/g, "");
+    str.replace(/\s+/g, "-").replace(/[^A-Za-z0-9-]/g, "");
 
   return (
     <BrowserRouter>

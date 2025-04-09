@@ -4,7 +4,7 @@ import cart from "../../assets/cart.png";
 import CartExpand from "./CartExpand.tsx";
 import { useState, useEffect } from "react";
 import { CartItem } from "../../types";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_ENDPOINT;
 
@@ -28,6 +28,7 @@ function Header({
   );
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -82,17 +83,24 @@ function Header({
     <div className="header">
       <div className="navigation">
         <div className="navItem">
-          {categories.map((category) => (
-            <Link
-              key={category.id}
-              to={`/${category.name.toLowerCase()}`} // Only category name in URL
-              className="navItemLabel"
-              onClick={() => handleCategoryClick(category.name)} // Optional: Handle click logic here
-              data-testid={`category-link-${category.id}`}
-            >
-              {category.name}
-            </Link>
-          ))}
+          {categories.map((category) => {
+            const isActive =
+              location.pathname === `/${category.name.toLowerCase()}`;
+
+            return (
+              <Link
+                key={category.id}
+                to={`/${category.name.toLowerCase()}`}
+                className={`navItemLabel ${isActive ? "active-link" : ""}`}
+                onClick={() => handleCategoryClick(category.name)}
+                data-testid={
+                  isActive ? "active-category-link" : "category-link"
+                }
+              >
+                {category.name}
+              </Link>
+            );
+          })}
         </div>
         <div className="navLogo">
           <img src={logo} alt="logo" />
