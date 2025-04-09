@@ -210,9 +210,11 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
                       data-testid={`product-attribute-${toKebabCase(
                         attr.name
                       )}-${
-                        attr.name === "Color"
-                          ? item.displayValue
-                          : toKebabCase(item.displayValue)
+                        item.displayValue
+                        // attr.name === "Color"
+                        //   ? item.displayValue
+                        //   : item.displayValue
+                        // : toKebabCase(item.displayValue)
                       }`}
                       onClick={() =>
                         updateAttributes(
