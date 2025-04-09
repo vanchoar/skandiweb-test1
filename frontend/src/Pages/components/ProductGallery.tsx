@@ -211,7 +211,7 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
                         attr.name
                       )}-${
                         attr.name === "Color"
-                          ? toKebabCase(item.value)
+                          ? item.displayValue
                           : toKebabCase(item.displayValue)
                       }`}
                       onClick={() =>
