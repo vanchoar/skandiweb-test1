@@ -65,7 +65,7 @@ function App() {
     str
       .toLowerCase()
       .replace(/\s+/g, "-")
-      .replace(/[^A-Za-z0-9-]/g, "");
+      .replace(/[^a-z0-9-#]/g, "");
 
   return (
     <BrowserRouter>
