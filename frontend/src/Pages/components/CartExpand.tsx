@@ -108,7 +108,7 @@ function CartExpand({
     : (totalItemsText = totalItems + " items");
 
   return (
-    <div className="cartExpand" data-testId="cart-overlay">
+    <div className="cartExpand" data-testid="cart-overlay">
       <div className="cartHeader">
         <span className="bold">My Bag.</span>{" "}
         <span data-testid="cart-item-amount"> {totalItemsText} </span>

@@ -217,6 +217,9 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
                           : undefined
                       }
                       data-id={item.id}
+                      data-testid={`product-attribute-${toKebabCase(
+                        attr.name
+                      )}-${toKebabCase(item.displayValue)}`}
                       onClick={() =>
                         updateAttributes(
                           attr.id,
@@ -245,7 +248,7 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
             {(product as Product).price.amount}
           </div>
         </div>
-        {(product as Product).inStock ? (
+        {/* {(product as Product).inStock ? (
           <button
             className="orderBtn"
             data-testid="add-to-cart"
@@ -262,7 +265,24 @@ function ProductGallery({ addToCart, toKebabCase }: ContentListProps) {
           </button>
         ) : (
           <div>OUT OF STOCK</div>
-        )}
+        )} */}
+
+        <button
+          className="orderBtn"
+          data-testid="add-to-cart"
+          disabled={!(product as Product).inStock}
+          onClick={() =>
+            addToCart(
+              product,
+              selectedAttributes?.length > 0
+                ? selectedAttributes
+                : defaultOptions
+            )
+          }
+        >
+          ADD TO CART
+        </button>
+
         <div className="infoText" data-testid="product-description">
           {parse((product as Product).description)}
         </div>
